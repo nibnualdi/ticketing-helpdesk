@@ -6,7 +6,51 @@
             <div class="border-bottom pb-2">
                 <div class="mb-0 d-flex align-items-center justify-content-between gap-3 border-bottom py-3">
                     <h6 class="">Tickets</h6>
-                    <button type="button" class="btn btn-outline-primary">Make A Ticket</button>
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">Make A Ticket</button>
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Add a ticket</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form action={{ route('ticket.store') }} method="POST">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Add a name, use, or actions</label>
+                                                <input class="form-control form-control-lg" type="text"
+                                                    placeholder="type here..." aria-label=".form-control-lg example"
+                                                    id="name" name="name">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Select a category</label>
+                                                <select class="form-select form-select-lg mb-3"
+                                                    aria-label=".form-select-lg example">
+                                                    <option selected="">Open this select menu</option>
+                                                    <option value="1">One</option>
+                                                    <option value="2">Two</option>
+                                                    <option value="3">Three</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Create</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="container d-flex justify-content-between py-2">
                     <div class="w-full">

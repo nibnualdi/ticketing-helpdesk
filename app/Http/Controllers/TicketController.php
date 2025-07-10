@@ -12,4 +12,12 @@ class TicketController extends Controller
 
         return view('ticket.index', ['tickets' => $tickets]);
     }
+
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'name' => 'required|string',
+        ]);
+        Ticket::create($validated);
+        return redirect()->route('home');
+    }
 }
