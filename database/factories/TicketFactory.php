@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Ticket;
 
@@ -29,7 +30,8 @@ class TicketFactory extends Factory
         return [
             'name' => fake()->text(10),
             'status' => fake()->randomElement($status),
-            'note' => $note
+            'note' => $note,
+            'category_id' => Category::inRandomOrder()->first()->id
         ];
     }
 }

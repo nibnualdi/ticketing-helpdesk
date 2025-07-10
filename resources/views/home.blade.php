@@ -33,11 +33,11 @@
                                             <div class="mb-3">
                                                 <label for="" class="form-label">Select a category</label>
                                                 <select class="form-select form-select-lg mb-3"
-                                                    aria-label=".form-select-lg example">
-                                                    <option selected="">Open this select menu</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
+                                                    aria-label=".form-select-lg example" name="category_id", id="category_id">
+                                                    {{-- <option selected="">Open to select category</option> --}}
+                                                    @foreach ($categories as $category)
+                                                        <option value={{ $category->id }} {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -88,43 +88,48 @@
                 </div>
             </div>
             @foreach ($tickets as $ticket)
-                <div class="d-flex text-muted py-3">
-                    @if ($ticket->status === 'open')
-                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                            preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#255C99" />
-                        </svg>
-                    @elseif($ticket->status === 'closed')
-                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                            preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#262626" />
-                        </svg>
-                    @elseif($ticket->status === 'on progress')
-                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                            preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#FFC759" />
-                        </svg>
-                    @elseif($ticket->status === 'resolved')
-                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                            preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55D6BE" />
-                        </svg>
-                    @endif
-
-                    <p class="mb-0 small lh-sm border-bottom d-flex flex-column justify-content-center">
-                        <strong class="d-block text-gray-dark">{{ $ticket->name }}</strong>
-                        @if ($ticket->note)
-                            <span>{{ $ticket->note }}</span>
+                <div class="d-flex align-items-center justify-content-between text-muted py-3">
+                    <div class="container d-flex align-items-center">
+                        @if ($ticket->status === 'open')
+                            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#255C99" />
+                            </svg>
+                        @elseif($ticket->status === 'closed')
+                            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#262626" />
+                            </svg>
+                        @elseif($ticket->status === 'on progress')
+                            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#FFC759" />
+                            </svg>
+                        @elseif($ticket->status === 'resolved')
+                            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55D6BE" />
+                            </svg>
                         @endif
-                    </p>
+
+                        <p class="mb-0 small lh-sm border-bottom d-flex flex-column justify-content-center">
+                            <strong class="d-block text-gray-dark">{{ $ticket->name }}</strong>
+                            <span>{{ '(' . $ticket->category->name . ')' }}</span>
+                            @if ($ticket->note)
+                                <span>{{ $ticket->note }}</span>
+                            @endif
+                        </p>
+                    </div>
+
+                    <p class="border-bottom">{{ $ticket->status }}</p>
                 </div>
             @endforeach
             <small class="d-flex justify-content-center mt-3">

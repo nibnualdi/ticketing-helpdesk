@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Ticket extends Model
+class Category extends Model
 {
-    protected $fillable = ['name', 'status', 'note', 'category_id'];
+    protected $fillable = ['name'];
     protected $keyType = 'string';
     public $incrementing = false;
-    /** @use HasFactory<\Database\Factories\TicketFactory> */
+
+    /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
 
     public static function boot() {
@@ -22,7 +23,7 @@ class Ticket extends Model
         });
     }
 
-    public function category() {
-        return $this->belongsTo(Category::class);
+    public function tickets() {
+        return $this->hasMany(Ticket::class);
     }
 }

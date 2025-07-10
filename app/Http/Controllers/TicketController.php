@@ -16,6 +16,7 @@ class TicketController extends Controller
     public function store(Request $request) {
         $validated = $request->validate([
             'name' => 'required|string',
+            'category_id' => 'required'
         ]);
         Ticket::create($validated);
         return redirect()->route('home');
