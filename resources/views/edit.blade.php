@@ -3,9 +3,10 @@
 @section('content')
     <div class="container">
         <form action={{ route('ticket.editAction', $ticket->id) }} method="post">
-          @csrf
-          @method('put')
+            @csrf
+            @method('put')
             <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <p class="h5">{{ $ticket->id }}</p>
                 <div class="mb-3">
                     <label for="name" class="form-label">Ticket name</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="Ticket's name"
@@ -38,9 +39,10 @@
                 </div>
 
                 <div class="mb-3">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="notes..." name="note" id="note">{{ $ticket->note }}</textarea>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="notes..." name="note"
+                        id="note">{{ $ticket->note }}</textarea>
                 </div>
-                <button type="button" class="btn btn-secondary">Cancel</button>
+                <a href={{ route('home') }}><button type="button" class="btn btn-secondary">Cancel</button></a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
