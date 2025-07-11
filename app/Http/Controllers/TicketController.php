@@ -24,11 +24,12 @@ class TicketController extends Controller
             'category_id' => 'required',
         ]);
         $validated['user_id'] = Auth::id();
-        
+
         $ticket = Ticket::create($validated);
+        $date = date('H:i:s');
 
         History::create([
-            'action' => "[Created] $ticket->name ($ticket->id)",
+            'action' => "[Created] [$date] ticket: $ticket->name ($ticket->id) | category: {$ticket->category->name}",
             'user_id' => Auth::id()
         ]);
 
@@ -58,11 +59,32 @@ class TicketController extends Controller
             'note' => 'nullable'
         ]);
 
-
         $ticket = Ticket::findOrFail($id);
-        $ticket->update($validated);
+
+        // Fill the model with new data (but don't save yet)
+        $ticket->fill($validated);
+
+        // Check which attributes have changed
+        $changes = $ticket->getDirty();
+
+        // If there are changes, save them
+        if (!empty($changes)) {
+            $ticket->save();
+        }
+
+        $changesSummary = [];
+        foreach ($changes as $field => $newValue) {
+            $changesSummary[$field] = [
+                'old' => $ticket->getOriginal($field),
+                'new' => $newValue,
+            ];
+        }
+
+        $strChangesSummary = json_encode($changesSummary);
+        $date = date('H:i:s');
+
         History::create([
-            'action' => "[Updated] $ticket->name ($ticket->id)",
+            'action' => "[Updated] [$date] ticket: $strChangesSummary",
             'user_id' => Auth::id()
         ]);
 
