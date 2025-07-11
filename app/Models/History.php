@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Ticket extends Model
+class History extends Model
 {
-    protected $fillable = ['name', 'status', 'note', 'user_id', 'category_id'];
+    // protected $fillable = ['action', 'user_id'];
+    protected $fillable = ['action', 'user_id'];
     protected $keyType = 'string';
     public $incrementing = false;
-    /** @use HasFactory<\Database\Factories\TicketFactory> */
+
+    /** @use HasFactory<\Database\Factories\HistoryFactory> */
     use HasFactory;
 
     public static function boot() {
@@ -20,13 +22,5 @@ class Ticket extends Model
         static::creating(function ($model) {
             $model->id = Str::uuid();
         });
-    }
-
-    public function category() {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function user() {
-        return $this->belongsTo(User::class);
     }
 }

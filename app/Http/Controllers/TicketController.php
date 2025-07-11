@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\History;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -19,9 +21,17 @@ class TicketController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string',
-            'category_id' => 'required'
+            'category_id' => 'required',
         ]);
-        Ticket::create($validated);
+        $validated['user_id'] = Auth::id();
+        
+        $ticket = Ticket::create($validated);
+
+        History::create([
+            'action' => "[Created] $ticket->name ($ticket->id)",
+            'user_id' => Auth::id()
+        ]);
+
         return redirect()->route('home');
     }
 
@@ -48,7 +58,13 @@ class TicketController extends Controller
             'note' => 'nullable'
         ]);
 
-        Ticket::where('id', $id)->update($validated);
+
+        $ticket = Ticket::findOrFail($id);
+        $ticket->update($validated);
+        History::create([
+            'action' => "[Updated] $ticket->name ($ticket->id)",
+            'user_id' => Auth::id()
+        ]);
 
         return redirect()->route('home')->with('success', 'Ticket updated successfully!');
     }

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Ticket;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ticket>
@@ -31,7 +32,8 @@ class TicketFactory extends Factory
             'name' => fake()->text(10),
             'status' => fake()->randomElement($status),
             'note' => $note,
-            'category_id' => Category::inRandomOrder()->first()->id
+            'user_id' => User::inRandomOrder()->first()->id,
+            'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }
 }
