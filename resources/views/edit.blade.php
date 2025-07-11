@@ -10,7 +10,7 @@
                 <div class="mb-3">
                     <label for="name" class="form-label">Ticket name</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="Ticket's name"
-                        value={{ $ticket->name }} {{ old('name') }}>
+                        value="{{ $ticket->name }}">
                 </div>
 
                 <div class="mb-3">
@@ -32,9 +32,6 @@
                             <option value={{ $stat }} {{ $stat == $ticket->status ? 'selected' : '' }}>
                                 {{ $stat }}</option>
                         @endforeach
-                        <option value="on progress">On Progress</option>
-                        <option value="resolved">Resolved</option>
-                        <option value="closed">Closed</option>
                     </select>
                 </div>
 
