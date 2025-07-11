@@ -33,10 +33,13 @@
                                             <div class="mb-3">
                                                 <label for="" class="form-label">Select a category</label>
                                                 <select class="form-select form-select-lg mb-3"
-                                                    aria-label=".form-select-lg example" name="category_id", id="category_id">
+                                                    aria-label=".form-select-lg example" name="category_id",
+                                                    id="category_id">
                                                     {{-- <option selected="">Open to select category</option> --}}
                                                     @foreach ($categories as $category)
-                                                        <option value={{ $category->id }} {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                                        <option value={{ $category->id }}
+                                                            {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                            {{ $category->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -129,7 +132,19 @@
                         </p>
                     </div>
 
-                    <p class="border-bottom">{{ $ticket->status }}</p>
+                    @if ($ticket->status === 'open')
+                        <p class="border-bottom m-3" style="color: #255C99;">{{ $ticket->status }}</p>
+                    @elseif($ticket->status === 'closed')
+                        <p class="border-bottom m-3" style="color: #262626;">{{ $ticket->status }}</p>
+                    @elseif($ticket->status === 'on progress')
+                        <p class="border-bottom m-3" style="color: #FFC759;">{{ $ticket->status }}</p>
+                    @elseif($ticket->status === 'resolved')
+                        <p class="border-bottom m-3" style="color: #55D6BE;">{{ $ticket->status }}</p>
+                    @endif
+
+                    <a href={{ route('ticket.edit', $ticket->id) }}>
+                        <button type="button" class="btn btn-outline-secondary">edit</button>
+                    </a>
                 </div>
             @endforeach
             <small class="d-flex justify-content-center mt-3">
