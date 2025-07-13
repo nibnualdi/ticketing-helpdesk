@@ -83,7 +83,7 @@
                 <div class="d-flex flex-column flex-shrink-0 pt-3 bg-light border-end border-r-2" style="width: 200px;">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active" aria-current="page">
+                            <a href="{{ route('ticket.filterByStatusDateCategory') }}" class="nav-link active" aria-current="page">
                                 <svg class="bi me-2" width="16" height="16">
                                     <use xlink:href="#home" />
                                 </svg>
