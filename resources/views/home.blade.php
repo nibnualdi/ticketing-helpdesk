@@ -55,9 +55,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="container d-flex justify-content-between py-2">
-                    <div class="w-full">
-                        <div>
+
+                <div class="container">
+                    <div class="row mt-3">
+                        <div class="col">
                             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
                                 <option selected>Status ticket</option>
                                 <option value="open">Open</option>
@@ -66,7 +67,7 @@
                                 <option value="closed">Closed</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="col">
                             <select class="form-select form-select-sm" aria-label=".form-select-sm example">
                                 <option selected>Categories</option>
                                 <option value="open">Open</option>
@@ -76,19 +77,29 @@
                             </select>
                         </div>
                     </div>
-                    <div class="container d-flex">
-                        <div>
-                            <label for="start" class="form-label">Start Date</label>
-                            <input type="date" name="start" class="form-control" placeholder="Enter Start Date"
-                                value="">
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div>
+                                <label for="start" class="form-label">Start Date</label>
+                                <input type="date" name="start" class="form-control" placeholder="Enter Start Date"
+                                    value="">
+                            </div>
                         </div>
-                        <div>
-                            <label for="end" class="form-label">End Date</label>
-                            <input type="date" name="end" class="form-control" placeholder="Enter End Date"
-                                value="">
+                        <div class="col">
+                            <div>
+                                <label for="end" class="form-label">End Date</label>
+                                <input type="date" name="end" class="form-control" placeholder="Enter End Date"
+                                    value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary my-3 ">Submit filter</button>
                         </div>
                     </div>
                 </div>
+
             </div>
             @foreach ($tickets as $ticket)
                 <div class="d-flex align-items-center justify-content-between text-muted py-3">
