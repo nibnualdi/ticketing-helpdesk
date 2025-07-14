@@ -144,7 +144,7 @@ class TicketController extends Controller
             };
         }
 
-        $tickets = $query->paginate(10);
+        $tickets = $query->orderBy('created_at', 'desc')->paginate(10);
         $categories = Category::all();
 
         return view('home', ['tickets' => $tickets, 'categories' => $categories]);
