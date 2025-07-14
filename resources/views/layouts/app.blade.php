@@ -79,30 +79,32 @@
 
         <div class="container">
             <div class="d-flex justify-content-between">
+                @can('seeMenus', App\Models\Ticket::class)
+                    <div class="d-flex flex-column flex-shrink-0 pt-3 bg-light border-end border-r-2" style="width: 200px;">
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            <li class="nav-item">
+                                <a href="{{ route('ticket.filterByStatusDateCategory') }}"
+                                    class="{{ request()->routeIs('ticket.*') ? 'nav-link active' : 'nav-link link-dark' }}"
+                                    aria-current="page">
+                                    <svg class="bi me-2" width="16" height="16">
+                                        <use xlink:href="#home" />
+                                    </svg>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('history.index') }}"
+                                    class="{{ request()->routeIs('history.*') ? 'nav-link active' : 'nav-link link-dark' }}">
+                                    <svg class="bi me-2" width="16" height="16">
+                                        <use xlink:href="#speedometer2" />
+                                    </svg>
+                                    Histories
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                @endcan
 
-                <div class="d-flex flex-column flex-shrink-0 pt-3 bg-light border-end border-r-2" style="width: 200px;">
-                    <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a href="{{ route('ticket.filterByStatusDateCategory') }}"
-                                class="{{ request()->routeIs('ticket.*') ? 'nav-link active' : 'nav-link link-dark' }}"
-                                aria-current="page">
-                                <svg class="bi me-2" width="16" height="16">
-                                    <use xlink:href="#home" />
-                                </svg>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('history.index') }}"
-                                class="{{ request()->routeIs('history.*') ? 'nav-link active' : 'nav-link link-dark' }}">
-                                <svg class="bi me-2" width="16" height="16">
-                                    <use xlink:href="#speedometer2" />
-                                </svg>
-                                Histories
-                            </a>
-                        </li>
-                    </ul>
-                </div>
 
                 <main class="pr-4 pt-4" style="width: 100%;">
                     @yield('content')

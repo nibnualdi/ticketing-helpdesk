@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class TicketController extends Controller
 {
@@ -41,6 +42,9 @@ class TicketController extends Controller
     public function edit($id)
     {
         $ticket = Ticket::find($id);
+
+        Gate::authorize('update', $ticket);
+
         $categories = Category::all();
         $status = [
             'open',
@@ -62,6 +66,8 @@ class TicketController extends Controller
         ]);
 
         $ticket = Ticket::findOrFail($id);
+
+        Gate::authorize('update', $ticket);
 
         // Fill the model with new data (but don't save yet)
         $ticket->fill($validated);
@@ -95,56 +101,64 @@ class TicketController extends Controller
 
     public function filterByStatusDateCategory(Request $request)
     {
-        $validated = $request->validate([
-            'status' => 'nullable',
-            'category' => 'nullable',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-        ]);
+        $user = Auth::user();
 
-        $filters = [
-            'status' => [
-                'column' => 'status',
-                'ignore' => ['Status ticket', null, ''],
-                'type' => 'exact',
-            ],
-            'category' => [
-                'column' => 'category_id',
-                'ignore' => ['Categories', null],
-                'type' => 'exact',
-            ],
-            'start_date' => [
-                'column' => 'created_at',
-                'ignore' => [null],
-                'type' => 'date_start',
-            ],
-            'end_date' => [
-                'column' => 'created_at',
-                'ignore' => [null],
-                'type' => 'date_end',
-            ],
-        ];
+        if (Gate::allows('viewFilter', Ticket::class)) {
+            $validated = $request->validate([
+                'status' => 'nullable',
+                'category' => 'nullable',
+                'start_date' => 'nullable|date',
+                'end_date' => 'nullable|date|after_or_equal:start_date',
+            ]);
 
-        $query = Ticket::query();
+            $filters = [
+                'status' => [
+                    'column' => 'status',
+                    'ignore' => ['Status ticket', null, ''],
+                    'type' => 'exact',
+                ],
+                'category' => [
+                    'column' => 'category_id',
+                    'ignore' => ['Categories', null],
+                    'type' => 'exact',
+                ],
+                'start_date' => [
+                    'column' => 'created_at',
+                    'ignore' => [null],
+                    'type' => 'date_start',
+                ],
+                'end_date' => [
+                    'column' => 'created_at',
+                    'ignore' => [null],
+                    'type' => 'date_end',
+                ],
+            ];
 
-        foreach ($filters as $inputKey => $config) {
-            $value   = $validated[$inputKey] ?? null;
-            $type    = $config['type'] ?? 'exact';
-            $column  = $config['column'];
-            $ignore  = $config['ignore'] ?? [null];
+            $query = Ticket::query();
 
-            if (in_array($value, $ignore, true)) continue;
+            foreach ($filters as $inputKey => $config) {
+                $value   = $validated[$inputKey] ?? null;
+                $type    = $config['type'] ?? 'exact';
+                $column  = $config['column'];
+                $ignore  = $config['ignore'] ?? [null];
 
-            match ($type) {
-                'exact'       => $query->where($column, $value),
-                'like'        => $query->where($column, 'like', '%' . $value . '%'),
-                'date_start' => $query->where($column, '>=', $value),
-                'date_end'   => $query->where($column, '<=', $value),
-                default       => null,
-            };
+                if (in_array($value, $ignore, true)) continue;
+
+                match ($type) {
+                    'exact'       => $query->where($column, $value),
+                    'like'        => $query->where($column, 'like', '%' . $value . '%'),
+                    'date_start' => $query->where($column, '>=', $value),
+                    'date_end'   => $query->where($column, '<=', $value),
+                    default       => null,
+                };
+            }
+
+            $tickets = $query->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $tickets = Ticket::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
         }
 
-        $tickets = $query->orderBy('created_at', 'desc')->paginate(10);
+
         $categories = Category::all();
 
         return view('home', ['tickets' => $tickets, 'categories' => $categories]);

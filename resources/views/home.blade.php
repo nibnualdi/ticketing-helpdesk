@@ -56,57 +56,59 @@
                     </div>
                 </div>
 
-                <div class="container">
-                    <form action={{ route('ticket.filterByStatusDateCategory') }} method="GET">
-                        <div class="row mt-3">
-                            <div class="col">
-                                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-                                    name="status" id="status">
-                                    <option selected>Status ticket</option>
-                                    <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>Open</option>
-                                    <option value="on progress" {{ request('status') == 'on progress' ? 'selected' : '' }}>
-                                        On Progress</option>
-                                    <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>
-                                        Resolved</option>
-                                    <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>Closed
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-                                    name="category" id="category">
-                                    <option selected>Categories</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ request('category') == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <div>
-                                    <label for="start" class="form-label">Start Date</label>
-                                    <input type="date" class="form-control" placeholder="Enter Start Date"
-                                        name="start_date" id="start_date" value="{{ request('start_date') }}">
+                @can('viewFilter', App\Models\Ticket::class)
+                    <div class="container">
+                        <form action={{ route('ticket.filterByStatusDateCategory') }} method="GET">
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                        name="status" id="status">
+                                        <option selected>Status ticket</option>
+                                        <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>Open</option>
+                                        <option value="on progress" {{ request('status') == 'on progress' ? 'selected' : '' }}>
+                                            On Progress</option>
+                                        <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>
+                                            Resolved</option>
+                                        <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>Closed
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                        name="category" id="category">
+                                        <option selected>Categories</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                {{ request('category') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div>
-                                    <label for="end" class="form-label">End Date</label>
-                                    <input type="date" class="form-control" placeholder="Enter End Date" name="end_date"
-                                        id="end_date" value="{{ request('end_date') }}">
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <div>
+                                        <label for="start" class="form-label">Start Date</label>
+                                        <input type="date" class="form-control" placeholder="Enter Start Date"
+                                            name="start_date" id="start_date" value="{{ request('start_date') }}">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <label for="end" class="form-label">End Date</label>
+                                        <input type="date" class="form-control" placeholder="Enter End Date" name="end_date"
+                                            id="end_date" value="{{ request('end_date') }}">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary my-3 ">Submit filter</button>
+                            <div class="row">
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary my-3 ">Submit filter</button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
+                @endcan
 
             </div>
             @foreach ($tickets as $ticket)
