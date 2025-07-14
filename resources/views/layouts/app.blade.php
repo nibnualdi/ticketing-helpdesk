@@ -83,7 +83,9 @@
                 <div class="d-flex flex-column flex-shrink-0 pt-3 bg-light border-end border-r-2" style="width: 200px;">
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="{{ route('ticket.filterByStatusDateCategory') }}" class="nav-link active" aria-current="page">
+                            <a href="{{ route('ticket.filterByStatusDateCategory') }}"
+                                class="{{ request()->routeIs('ticket.*') ? 'nav-link active' : 'nav-link link-dark' }}"
+                                aria-current="page">
                                 <svg class="bi me-2" width="16" height="16">
                                     <use xlink:href="#home" />
                                 </svg>
@@ -91,7 +93,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link link-dark">
+                            <a href="{{ route('history.index') }}"
+                                class="{{ request()->routeIs('history.*') ? 'nav-link active' : 'nav-link link-dark' }}">
                                 <svg class="bi me-2" width="16" height="16">
                                     <use xlink:href="#speedometer2" />
                                 </svg>

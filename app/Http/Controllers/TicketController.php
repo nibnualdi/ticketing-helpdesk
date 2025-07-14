@@ -35,7 +35,7 @@ class TicketController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        return redirect()->route('home');
+        return redirect()->route('ticket.filterByStatusDateCategory');
     }
 
     public function edit($id)
