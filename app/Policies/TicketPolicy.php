@@ -35,9 +35,8 @@ class TicketPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Ticket $ticket): bool
+    public function update(User $user): bool
     {
-        // dd($user->roles);
         return $user->roles === 'it support';
         // return false;
     }

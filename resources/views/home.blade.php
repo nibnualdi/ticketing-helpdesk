@@ -163,9 +163,11 @@
                         <p class="border-bottom m-3" style="color: #55D6BE;">{{ $ticket->status }}</p>
                     @endif
 
-                    <a href={{ route('ticket.edit', $ticket->id) }}>
-                        <button type="button" class="btn btn-outline-secondary">edit</button>
-                    </a>
+                    @can('update', App\Models\Ticket::class)
+                        <a href={{ route('ticket.edit', $ticket->id) }}>
+                            <button type="button" class="btn btn-outline-secondary">edit</button>
+                        </a>
+                    @endcan
                 </div>
             @endforeach
             <small class="d-flex justify-content-center mt-3">
