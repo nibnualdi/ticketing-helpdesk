@@ -39,7 +39,7 @@
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="notes..." name="note"
                         id="note">{{ $ticket->note }}</textarea>
                 </div>
-                <a href={{ route('home') }}><button type="button" class="btn btn-secondary">Cancel</button></a>
+                <a href={{ route('ticket.filterByStatusDateCategory') }}><button type="button" class="btn btn-secondary">Cancel</button></a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>

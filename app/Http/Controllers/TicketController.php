@@ -90,7 +90,7 @@ class TicketController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        return redirect()->route('home')->with('success', 'Ticket updated successfully!');
+        return redirect()->route('ticket.filterByStatusDateCategory')->with('success', 'Ticket updated successfully!');
     }
 
     public function filterByStatusDateCategory(Request $request)

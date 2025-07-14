@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('action')->nullable();
+            $table->text('action')->nullable();
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
